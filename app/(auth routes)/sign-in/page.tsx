@@ -4,9 +4,9 @@ import { useState } from 'react';
 import css from './page.module.css';
 import { useRouter } from 'next/navigation';
 import { login, LoginRequest } from '@/lib/api/clientApi';
-import { ApiError } from '@/app/api/api';
 import { useAuthStore } from '@/lib/store/authStore';
 import toast from 'react-hot-toast';
+import { ApiError } from '@/types/error';
 
 export const SignIn = () => {
     const router = useRouter();

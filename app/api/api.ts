@@ -1,9 +1,6 @@
-import { API_BASE_URL } from "@/constants";
-import axios, { AxiosError } from "axios";
-
-export type ApiError = AxiosError<{ error: string }>;
+import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: 'https://notehub-api.goit.study',
   withCredentials: true,
 });

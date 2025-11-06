@@ -7,12 +7,14 @@ import { getMe, updateMe } from '@/lib/api/clientApi';
 import { User } from '@/types/user';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { ApiError } from '@/app/api/api';
+import { ApiError } from '@/types/error';
+import { useAuthStore } from '@/lib/store/authStore';
 
 
 const EditProfile = () => {
-    const [user, setUser] = useState<User | null>();
-    const [userName, setUserName] = useState<string>();
+    const [userData, setUserData] = useState<User | null>(null);
+    const setUser = useAuthStore((state) => state.setUser);
+    const [userName, setUserName] = useState<string>('');
     const [error, setError] = useState('');
 
     const router = useRouter();
@@ -21,10 +23,11 @@ const EditProfile = () => {
 
     useEffect(() => {
         getMe().then(user => {
-            setUser(user)
+            setUserData(user)
             setUserName(user.username)
+            setUser(user);
         });
-    }, [])
+    }, [setUser])
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setUserName(event.target.value);
@@ -35,7 +38,12 @@ const EditProfile = () => {
         setUserName(username);
 
         try {
-            await updateMe({ username, email: user?.email as string });
+            await updateMe({ username });
+
+            if (userData) {
+                setUser({ ...userData, username });
+            }
+
             toast.success("Profile updated successfully");
             goToProfile();
         } catch (error) {
@@ -52,9 +60,9 @@ const EditProfile = () => {
         <section className={css.mainContent}>
             <div className={css.profileCard}>
                 <h1 className={css.formTitle}>Edit Profile</h1>
-                {user?.avatar &&
+                {userData?.avatar &&
                     <Image
-                        src={user?.avatar}
+                        src={userData?.avatar}
                         alt="User Avatar"
                         width={120}
                         height={120}
@@ -70,12 +78,12 @@ const EditProfile = () => {
                             name='username'
                             type="text"
                             className={css.input}
-                            defaultValue={userName}
+                            defaultValue={userName || ''}
                             onChange={handleChange}
                             required
                         />
                     </div>
-                    <p>Email: {user?.email}</p>
+                    <p>Email: {userData?.email}</p>
                     <div className={css.actions}>
                         <button type="submit" className={css.saveButton}>
                             Save

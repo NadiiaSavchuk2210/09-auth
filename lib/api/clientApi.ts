@@ -61,7 +61,6 @@ export interface CheckSessionRequest {
 
 export interface UpdateUserRequest {
   username: string;
-  email: string;
 }
 
 // Requests

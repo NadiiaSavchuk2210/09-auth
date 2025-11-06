@@ -5,7 +5,7 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader/Loader";
-import { ApiError } from "@/app/api/api";
+import { ApiError } from "@/types/error";
 
 interface Props {
     children: React.ReactNode;
