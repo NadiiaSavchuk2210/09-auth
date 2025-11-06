@@ -6,6 +6,8 @@ import Footer from "@/components/Footer/Footer";
 import "modern-normalize";
 import "./globals.css";
 import { HOME_PAGE_URL, OG_IMAGE, SITE_NAME } from "@/constants";
+import AuthProvider from "@/components/AuthProvider/AuthProvider";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -38,12 +40,19 @@ export default function RootLayout({
     <html lang="en">
       <body className={roboto.variable}>
         <TanStackProvider>
-          <Header />
-          <main>
-            {children}
-            {modal}
-          </main>
-          <Footer />
+          <AuthProvider>
+            <Header />
+            <main>
+              {children}
+              {modal}
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 4000
+                }} />
+            </main>
+            <Footer />
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>

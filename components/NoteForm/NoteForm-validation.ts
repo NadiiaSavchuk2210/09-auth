@@ -1,3 +1,4 @@
+import { NOTE_TAGS } from "@/constants";
 import { NewNoteData } from "@/types/note";
 
 type Rule<T> = (value: T) => string | null;
@@ -23,7 +24,10 @@ const rules = {
       value.trim().length <= length ? null : message,
 
   oneOf:
-    (options: string[], message: string): Rule<string> =>
+    <T extends readonly string[]>(
+      options: T,
+      message: string
+    ): Rule<T[number]> =>
     (value) =>
       options.includes(value) ? null : message,
 };
@@ -37,10 +41,7 @@ export const validationSchema: Schema<NewNoteData> = {
   content: [rules.max(500, "Content is too long")],
   tag: [
     rules.required("Tag is required"),
-    rules.oneOf(
-      ["Todo", "Work", "Personal", "Meeting", "Shopping"],
-      "Invalid tag"
-    ),
+    rules.oneOf(NOTE_TAGS, "Invalid tag"),
   ],
 };
 
@@ -50,19 +51,19 @@ export function validateForm<T extends NewNoteData>(
 ): Partial<Record<keyof T, string>> {
   const errors: Partial<Record<keyof T, string>> = {};
 
-  for (const key in schema) {
-    const rules = schema[key];
+  (Object.keys(schema) as Array<keyof T>).forEach((key) => {
+    const fieldRules = schema[key];
     const value = data[key];
-    if (!rules || value === undefined) continue;
+    if (!fieldRules || value === undefined) return;
 
-    for (const rule of rules) {
+    for (const rule of fieldRules) {
       const error = rule(value);
       if (error) {
         errors[key] = error;
         break;
       }
     }
-  }
+  });
 
   return errors;
 }

@@ -1,7 +1,5 @@
-import { NoteTag } from "./types/note";
-
 //* API CONFIG =================================================
-export const API_BASE_URL = "https://notehub-public.goit.study/api";
+export const API_BASE_URL = "https://notehub-api.goit.study";
 
 //* PAGINATION CONFIG =================================================
 export const PAGINATION_CONFIG = {
@@ -11,14 +9,21 @@ export const PAGINATION_CONFIG = {
   previousLabel: "←",
 };
 
-//* NOTE TAGS =================================================
-export const NOTE_TAGS: NoteTag[] = [
+//* NOTES =================================================
+export const NOTES_PER_PAGE = 12;
+
+export const NOTE_TAGS = [
   "Work",
   "Personal",
   "Meeting",
   "Shopping",
   "Todo",
-];
+  "Ideas",
+  "Travel",
+  "Finance",
+  "Health",
+  "Important",
+] as const;
 
 //* SITE METADATA =================================================
 export const SITE_NAME = "NoteHub";

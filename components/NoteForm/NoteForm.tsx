@@ -6,10 +6,11 @@ import type { NewNoteData } from '../../types/note';
 import toast from 'react-hot-toast';
 import Loader from '../Loader/Loader';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createNote } from '@/lib/api';
 import { validateForm, validationSchema } from './NoteForm-validation';
 import { useRouter } from 'next/navigation';
 import { useNoteDraftStore } from '@/lib/store/noteStore';
+import { createNote } from '@/lib/api/clientApi';
+import { NOTE_TAGS } from '@/constants';
 
 interface Errors {
     title?: string,
@@ -95,11 +96,7 @@ export default function NoteForm() {
             <fieldset className={css.formGroup}>
                 <label htmlFor={`${fieldId}-tag`}>Tag</label>
                 <select id={`${fieldId}-tag`} name="tag" className={css.select} defaultValue={draft.tag} onChange={handleChange}>
-                    <option value="Todo">Todo</option>
-                    <option value="Work">Work</option>
-                    <option value="Personal">Personal</option>
-                    <option value="Meeting">Meeting</option>
-                    <option value="Shopping">Shopping</option>
+                    {NOTE_TAGS.map(noteTag => <option key={noteTag} value={noteTag}>{noteTag}</option>)}
                 </select>
                 {formErrors?.tag && <span className={css.error}>{formErrors.tag}</span>}
             </fieldset>

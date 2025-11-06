@@ -17,12 +17,12 @@ export const metadata: Metadata = {
 
 const CreateNote = () => {
     return (
-        <main className={css.main}>
+        <section className={css.main}>
             <div className={css.container}>
                 <h1 className={css.title}>Create note</h1>
                 <NoteForm />
             </div>
-        </main>
+        </section>
     )
 }
 
