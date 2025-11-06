@@ -27,7 +27,7 @@ export const NOTE_TAGS = [
 
 //* SITE METADATA =================================================
 export const SITE_NAME = "NoteHub";
-export const HOME_PAGE_URL = "https://08-zustand-smoky-tau.vercel.app";
+export const HOME_PAGE_URL = "09-auth-silk-gamma.vercel.app";
 
 export const OG_IMAGE = {
   url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
